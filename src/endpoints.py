@@ -29,7 +29,7 @@ def get_segmented():
     img = transformer(img).unsqueeze(0)
     print(img.size())
     print('====')
-    pred, pred_name = visualizer(img, settings[model_type], model_type=model_type)
+    pred, pred_name = visualizer(img, settings[model_type], model_type=model_type, result_path=settings['RESULTS'])
 
     # return transformer(img).size()
     response = {'Prediction': pred, 'Class': pred_name}

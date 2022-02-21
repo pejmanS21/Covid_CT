@@ -17,7 +17,7 @@ def denormalizer(image, stats=stats):
     return image
 
 
-def visualizer(image, model, model_type: str = 'resnet'):
+def visualizer(image, model, model_type: str = 'resnet', result_path: str = '../images/res.png'):
     if model_type == 'resnet':
         target_layer = model.network.layer4[2].bn2
     elif model_type == 'mobilenet':
@@ -41,16 +41,16 @@ def visualizer(image, model, model_type: str = 'resnet'):
     mask_pp, _ = gradcam_pp(image)
     heatmap_pp, result_pp = visualize_cam(mask_pp, image)
 
-    # fig, axs = plt.subplots(1, 3)
-    # axs[0].imshow(denormalizer(image[0]))
-    # axs[1].imshow(result.permute(1, 2, 0))
-    # axs[2].imshow(result_pp.permute(1, 2, 0))
+    fig, axs = plt.subplots(1, 3)
+    axs[0].imshow(denormalizer(image[0]))
+    axs[1].imshow(result.permute(1, 2, 0))
+    axs[2].imshow(result_pp.permute(1, 2, 0))
 
-    # axs[0].axis('off')
-    # axs[1].axis('off')
-    # axs[2].axis('off')
+    axs[0].axis('off')
+    axs[1].axis('off')
+    axs[2].axis('off')
     
-    # fig.suptitle(classes[pred[0]])
-    # plt.savefig('../images/res.png')
+    fig.suptitle(classes[pred[0]])
+    plt.savefig(result_path)
     
     return pred[0], classes[pred[0]]
