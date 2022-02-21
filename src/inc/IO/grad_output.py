@@ -9,7 +9,7 @@ from ..config.utils import stats, classes
 def denormalizer(image, stats=stats):
     if len(image.size()) == 4:
         image = image[0]
-    image = image.numpy().transpose(1, 2, 0)
+    image = image.cpu().numpy().transpose(1, 2, 0)
     mean, std = stats
     image = image * std + mean
     image = np.clip(image, 0, 1)
