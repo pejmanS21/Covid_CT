@@ -1,0 +1,4 @@
+outs:
+- md5: d9967e89eb6a4774b2bb4daa8f862775
+  size: 85286797
+  path: covid_ct_resnet_checkpoint.pth

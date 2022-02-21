@@ -1,0 +1,4 @@
+[core]
+    remote = covid_remote
+['remote "covid_remote"']
+    url = gdrive://1BPNiNTXSpk6SyB8PUR-pWuxJu0YiuRW5

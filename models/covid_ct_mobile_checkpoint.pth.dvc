@@ -1,0 +1,4 @@
+outs:
+- md5: e694290017fa712d4bcef786a9d50950
+  size: 9158605
+  path: covid_ct_mobile_checkpoint.pth
