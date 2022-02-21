@@ -1,7 +1,7 @@
+import torch
 from inc.config.utils import device, transformer, stats 
 from inc.models.mobilenet import COVID_CT_MobileNet
 from inc.models.resnet import COVID_CT_RESNET
-import torch
 
 def init():
     settings = {
