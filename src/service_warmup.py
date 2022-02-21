@@ -1,6 +1,7 @@
 from inc.config.utils import device, transformer, stats 
 from inc.models.mobilenet import COVID_CT_MobileNet
 from inc.models.resnet import COVID_CT_RESNET
+import torch
 
 def init():
     settings = {
@@ -13,9 +14,12 @@ def init():
     }
 
     resnet = COVID_CT_RESNET(3).to(device)
-    resnet._load_model_(settings['RESNET_PATH'], settings['DEVICE'])
+    resnet.eval()
+    resnet.load_state_dict(torch.load(settings['RESNET_PATH'], map_location=settings['DEVICE']))
+
     mobilenet = COVID_CT_MobileNet(3).to(device)
-    mobilenet._load_model_(settings['MOBILE_PATH'], settings['DEVICE'])
+    mobilenet.eval()
+    mobilenet.load_state_dict(torch.load(settings['MOBILE_PATH'], map_location=settings['DEVICE']))
     
     settings['resnet'] = resnet
     settings['mobilenet'] = mobilenet

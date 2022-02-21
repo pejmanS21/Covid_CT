@@ -18,12 +18,10 @@ class COVID_CT_MobileNet(nn.Module):
     def _summary_(self, input_size=(3, 224, 224)):
         return summary(self, input_size)
     
-    def _load_model_(self, path, device):
-        self.load_state_dict(torch.load(path, map_location=device))
-
+    
 
 if __name__ == "__main__":
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = COVID_CT_MobileNet(num_classes=3).to(device)
-    model._load_model_('../../../models/covid_ct_mobile_checkpoint.pth', device)
+    # model._load_model_('../../../models/covid_ct_mobile_checkpoint.pth', device)
     model._summary_((3, 224, 224))
