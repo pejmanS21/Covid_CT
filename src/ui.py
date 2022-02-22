@@ -2,20 +2,21 @@ import streamlit as st
 import requests
 from PIL import Image
 from io import BytesIO
+import json
+import sys
+from streamlit import cli as stcli
 
 
 st.markdown('''
-            # Lung Segmentation App
-            Select a model, then upload your **CXR** image and 
-            choose a pre-process for your input image
-            then hit the `submit` button to get your **segmented** mask.    
-            For **VAE** just select to numbers between `1` and `30`, 
-            hit the `submit` button and get your **generated** image.
-            
+            # Covid 19 Detection APP
+            Select a model, then upload your **CT** image,
+            then hit the `submit` button to get your **Prediction**.    
+
             ------------------------------------------------------
             ''')
 url = "http://0.0.0.0:8000/process"
 
+status_code = 400
 
 def post_request(image, model_name, url):
     
@@ -47,7 +48,9 @@ with st.form(key='classification'):
                 submit_button = st.form_submit_button(label='Submit')
                 if submit_button:
                     r = post_request(image, 'resnet', url)
-                    st.write(r.text)
+                    preds = json.loads(r.content.decode("utf-8").replace("'",'"'))
+                    if r.status_code == 200:
+                        status_code = 200
 
         elif model_name == "MobileNet_V2":
             file = st.sidebar.file_uploader("Please upload an image file", type=["jpg", "png"])
@@ -57,6 +60,11 @@ with st.form(key='classification'):
                 submit_button = st.form_submit_button(label='Submit')
                 if submit_button:
                     r = post_request(image, 'mobilenet', url)
-                    st.write(r.content)
-                    # if responsed.status_code == 200:
-                    #     output_ready = True
+                    preds = json.loads(r.content.decode("utf-8").replace("'",'"'))
+                    if r.status_code == 200:
+                        status_code = 200
+
+if status_code == 200:
+    st.write(f"### `{preds['Class']}`")
+    st.image('../images/results.png')
+
