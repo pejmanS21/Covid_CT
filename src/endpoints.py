@@ -4,7 +4,7 @@ import jsonpickle
 from PIL import Image
 from io import BytesIO
 from inc.config.utils import transformer
-from flask import request, Response, render_template
+from flask import request, Response, render_template, jsonify
 from inc.IO.grad_output import visualizer
 
 
@@ -21,21 +21,18 @@ def hello():
 @app.route('/process', methods=['POST', 'GET'])
 def get_segmented():
     """
-        process input image for U-Net & Residual U-Net
+        process input image for Detection
     """
     model_type = request.files['image'].filename
-    print(model_type)
+
     img = Image.open(BytesIO(request.files['image'].read())).convert('RGB')
     img = transformer(img).unsqueeze(0)
-    print(img.size())
-    print('====')
+
     pred, pred_name = visualizer(img, settings[model_type], model_type=model_type, result_path=settings['RESULTS'])
 
-    # return transformer(img).size()
-    response = {'Prediction': pred, 'Class': pred_name}
-    print(response)
-    print('====')
+    response = {'Prediction': pred.item(), 'Class': pred_name}
     response_pickled = jsonpickle.encode(response)
+
     return Response(response=response_pickled, status=200, mimetype="application/json")
 
 
