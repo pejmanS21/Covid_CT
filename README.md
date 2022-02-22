@@ -17,6 +17,12 @@ and start UI by running [ui.py](./src/ui.py)
 
 <br>
 
+## `Colab`
+
+you can use app as jupyter notebook in Google Colab, check [Covid_CT.ipynb](./Covid_CT.ipynb)
+
+<br>
+
 ## DVC
 
 if you using data version control like **dvc**, use following instruction to download *weights*.<br>
